@@ -1,0 +1,34 @@
+Use awk to get the entire text of the verified and unverified reviews
+Redirect the "verified" true reviews to a file "verified.txt". Then put the unverified reviews in another file "unverified.txt" using redirection.
+
+$ awk -F '\t' '$12 == "Y" {print($14)}' amazon_reviews_us_Books_v1_02.tsv > verified.txt
+$ awk -F '\t' '$12 == "N" {print($14)}' amazon_reviews_us_Books_v1_02.tsv > unverified.txt
+
+
+Find the 10 most frequent words in the review_body of the verified reviews, then find the 10 most frequent words in the review_body of the unverified reviews.
+
+$ sed -e 's/[^[:alpha:]]/ /g' verified.txt | tr '\n' " " |  tr -s " " | tr " " '\n'| tr 'A-Z' 'a-z' | sort | uniq -c | sort -nr| head -10
+>
+2195753 the
+1186601 and
+1160893 of
+1021659 to
+ 980399 a
+ 689037 is
+ 667894 i
+ 648341 in
+ 544390 this
+ 520425 it
+
+$ sed -e 's/[^[:alpha:]]/ /g' unverified.txt | tr '\n' " " |  tr -s " " | tr " " '\n'| tr 'A-Z' 'a-z' | sort | uniq -c | sort -nr| head -10
+>
+24414317 the
+13552878 and
+12704941 of
+11629165 to
+11239605 a
+7783482 is
+7705758 i
+7212246 in
+6112435 this
+
